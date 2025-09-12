@@ -24,6 +24,7 @@
     "nodemailer": "^7.0.6",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "react-csv": "^2.2.2",
     "socket.io": "^4.8.1"
   }
 }

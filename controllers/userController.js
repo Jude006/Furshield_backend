@@ -57,3 +57,30 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
     data: user,
   });
 });
+
+// Get all veterinarians
+exports.getVeterinarians = asyncHandler(async (req, res, next) => {
+  const veterinarians = await User.find({ 
+    userType: 'veterinarian',
+    isActive: true 
+  }).select('firstName lastName email specialization phone address');
+
+  res.status(200).json({
+    success: true,
+    count: veterinarians.length,
+    data: veterinarians
+  });
+});
+
+exports.getUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id).select('-password');
+  
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+});

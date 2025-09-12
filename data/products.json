@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Premium Dog Food",
+    "category": "food",
+    "price": 5000,
+    "description": "Nutritious dry food for adult dogs",
+    "stockQuantity": 100,
+    "image": "https://via.placeholder.com/150?text=Dog+Food"
+  },
+  {
+    "name": "Cat Grooming Brush",
+    "category": "grooming",
+    "price": 2000,
+    "description": "Gentle brush for cat fur",
+    "stockQuantity": 50,
+    "image": "https://via.placeholder.com/150?text=Grooming+Brush"
+  },
+  {
+    "name": "Chew Toy",
+    "category": "toys",
+    "price": 1500,
+    "description": "Durable toy for dogs",
+    "stockQuantity": 75,
+    "image": "https://via.placeholder.com/150?text=Chew+Toy"
+  },
+  {
+    "name": "Flea Treatment",
+    "category": "health",
+    "price": 3000,
+    "description": "Effective flea and tick treatment",
+    "stockQuantity": 40,
+    "image": "https://via.placeholder.com/150?text=Flea+Treatment"
+  }
+]

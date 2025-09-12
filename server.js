@@ -35,25 +35,34 @@ const appointments = require('./routes/appointmentRoutes');
 const insurance = require('./routes/insuranceRoutes');
 const documents = require('./routes/documents');
 const products = require('./routes/productRoutes');
-const cart = require('./routes/cartRoutes');
-const userRoutes = require('./routes/userRoutes')
+const orders = require('./routes/orders');
+const health = require('./routes/healthRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const users = require('./routes/userRoutes');
+const availabilityRoutes = require('./routes/availabilityRoutes')
+const vetRoutes = require('./routes/vetRoutes')
+
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://furshield.vercel.app/',
+  origin: process.env.FRONTEND_URL || 'https://furshield.vercel.app',
   credentials: true,
 }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 app.use('/api/auth', auth);
-app.use('/api/users', userRoutes);
 app.use('/api/pets', pets);
 app.use('/api/appointments', appointments);
 app.use('/api/insurance', insurance);
 app.use('/api/documents', documents);
 app.use('/api/products', products);
-app.use('/api/cart', cart);
+app.use('/api/orders', orders);
+app.use('/api/health', health);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/users', users);
+app.use('/api/availability', availabilityRoutes);
+app.use('/api/vet', vetRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

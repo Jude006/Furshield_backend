@@ -1,20 +1,16 @@
 const express = require('express');
 const {
-  getVeterinarians,
   getMe,
-  updateMe,
+  getVeterinarians,
+  getUser
 } = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.use(protect);
 
-router.route('/')
-  .get(getVeterinarians);
-
-router.route('/me')
-  .get(getMe)
-  .put(updateMe);
+router.get('/me', protect, getMe);
+router.get('/veterinarians', protect, getVeterinarians);
+router.get('/:id', protect, getUser);
 
 module.exports = router;

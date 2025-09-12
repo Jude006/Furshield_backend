@@ -7,21 +7,39 @@
 //   res.status(200).json({
 //     success: true,
 //     count: pets.length,
-//     data: pets,
+//     data: pets
 //   });
 // });
 
 // exports.getPet = asyncHandler(async (req, res, next) => {
-//   const pet = await Pet.findById(req.params.id).populate('owner', 'firstName lastName email');
+//   console.log('=== PET ACCESS DEBUG ===');
+//   console.log('Pet ID:', req.params.id);
+//   console.log('User ID:', req.user.id);
+//   console.log('User Type:', req.user.userType);
+  
+//     const pet = await Pet.findById(req.params.id)
+//     .populate('owner', 'firstName lastName email')
+//     .populate('medicalHistory.vet', 'firstName lastName')
+//     .populate('vaccinations.administeredBy', 'firstName lastName')
+//     .populate('medications.prescribedBy', 'firstName lastName');
+  
 //   if (!pet) {
+//     console.log('Pet not found');
 //     return next(new ErrorResponse(`Pet not found with id of ${req.params.id}`, 404));
 //   }
-//   if (pet.owner.toString() !== req.user.id && req.user.userType !== 'veterinarian') {
+  
+//   console.log('Pet Owner ID:', pet.owner._id.toString());
+//   console.log('Owner matches user:', pet.owner._id.toString() === req.user.id);
+  
+//   if (pet.owner._id.toString() !== req.user.id && req.user.userType !== 'veterinarian') {
+//     console.log('ACCESS DENIED');
 //     return next(new ErrorResponse(`Not authorized to access this pet`, 401));
 //   }
+  
+//   console.log('ACCESS GRANTED');
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -32,7 +50,7 @@
 //     req.body.images = images.map(file => ({
 //       url: `/uploads/${file.filename}`,
 //       caption: req.body.caption || '',
-//       uploadedAt: new Date(),
+//       uploadedAt: new Date()
 //     }));
 //   }
 //   if (req.body.medicalHistory) {
@@ -43,7 +61,7 @@
 //   const pet = await Pet.create(req.body);
 //   res.status(201).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -57,11 +75,11 @@
 //   }
 //   pet = await Pet.findByIdAndUpdate(req.params.id, req.body, {
 //     new: true,
-//     runValidators: true,
+//     runValidators: true
 //   });
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -76,7 +94,7 @@
 //   await Pet.findByIdAndDelete(req.params.id);
 //   res.status(200).json({
 //     success: true,
-//     data: {},
+//     data: {}
 //   });
 // });
 
@@ -95,12 +113,12 @@
 //   pet.images.push(...images.map(file => ({
 //     url: `/uploads/${file.filename}`,
 //     caption: req.body.caption || '',
-//     uploadedAt: new Date(),
+//     uploadedAt: new Date()
 //   })));
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -116,7 +134,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -132,7 +150,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -148,7 +166,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -164,7 +182,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -180,7 +198,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -196,7 +214,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -212,7 +230,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -228,7 +246,7 @@
 //   await pet.save();
 //   res.status(200).json({
 //     success: true,
-//     data: pet,
+//     data: pet
 //   });
 // });
 
@@ -250,36 +268,55 @@
 //       date: record.date,
 //       title: record.condition,
 //       description: record.diagnosis,
-//       data: record,
+//       data: record
 //     })),
 //     ...pet.vaccinations.map(vaccine => ({
 //       type: 'vaccination',
 //       date: vaccine.date,
 //       title: `${vaccine.vaccine} Vaccine`,
 //       description: `Administered on ${vaccine.date.toLocaleDateString()}`,
-//       data: vaccine,
+//       data: vaccine
 //     })),
 //     ...appointments.map(appt => ({
 //       type: 'appointment',
 //       date: appt.date,
 //       title: `Appointment with Dr. ${appt.veterinarian?.lastName || 'Unknown'}`,
 //       description: appt.reason,
-//       data: appt,
-//     })),
+//       data: appt
+//     }))
 //   ];
 //   timeline.sort((a, b) => new Date(b.date) - new Date(a.date));
 //   res.status(200).json({
 //     success: true,
-//     data: timeline,
+//     data: timeline
 //   });
 // });
 
 const Pet = require('../models/Pets');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+const fs = require('fs');
+const path = require('path');
+
+// Ensure uploads directory exists
+const ensureUploadsDir = () => {
+  const uploadsDir = path.join(__dirname, '../uploads');
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+};
 
 exports.getPets = asyncHandler(async (req, res, next) => {
-  const pets = await Pet.find({ owner: req.user.id }).populate('owner', 'firstName lastName email');
+  const pets = await Pet.find({ owner: req.user.id })
+    .populate('owner', 'firstName lastName email')
+    .sort({ createdAt: -1 });
+  
+  console.log('Returning pets with images:', pets.map(pet => ({
+    name: pet.name,
+    imageCount: pet.images ? pet.images.length : 0,
+    images: pet.images
+  })));
+  
   res.status(200).json({
     success: true,
     count: pets.length,
@@ -293,7 +330,7 @@ exports.getPet = asyncHandler(async (req, res, next) => {
   console.log('User ID:', req.user.id);
   console.log('User Type:', req.user.userType);
   
-    const pet = await Pet.findById(req.params.id)
+  const pet = await Pet.findById(req.params.id)
     .populate('owner', 'firstName lastName email')
     .populate('medicalHistory.vet', 'firstName lastName')
     .populate('vaccinations.administeredBy', 'firstName lastName')
@@ -306,6 +343,7 @@ exports.getPet = asyncHandler(async (req, res, next) => {
   
   console.log('Pet Owner ID:', pet.owner._id.toString());
   console.log('Owner matches user:', pet.owner._id.toString() === req.user.id);
+  console.log('Pet images:', pet.images);
   
   if (pet.owner._id.toString() !== req.user.id && req.user.userType !== 'veterinarian') {
     console.log('ACCESS DENIED');
@@ -320,7 +358,14 @@ exports.getPet = asyncHandler(async (req, res, next) => {
 });
 
 exports.createPet = asyncHandler(async (req, res, next) => {
+  ensureUploadsDir(); // Ensure upload directory exists
+  
   req.body.owner = req.user.id;
+  
+  console.log('Creating pet with files:', req.files);
+  console.log('Request body:', req.body);
+  
+  // Handle file uploads
   if (req.files && req.files.images) {
     const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
     req.body.images = images.map(file => ({
@@ -328,16 +373,42 @@ exports.createPet = asyncHandler(async (req, res, next) => {
       caption: req.body.caption || '',
       uploadedAt: new Date()
     }));
+    
+    console.log('Processed images:', req.body.images);
   }
+  
+  // Handle medical history
   if (req.body.medicalHistory) {
-    req.body.medicalHistory = JSON.parse(req.body.medicalHistory).filter(record =>
-      record.condition || record.diagnosis || record.treatment || record.date
-    );
+    try {
+      let medicalHistoryData;
+      
+      if (typeof req.body.medicalHistory === 'string') {
+        medicalHistoryData = JSON.parse(req.body.medicalHistory);
+      } else {
+        medicalHistoryData = req.body.medicalHistory;
+      }
+      
+      req.body.medicalHistory = medicalHistoryData.filter(record =>
+        record.condition || record.diagnosis || record.treatment || record.date
+      );
+    } catch (error) {
+      console.error('Error parsing medical history:', error);
+      req.body.medicalHistory = [];
+    }
   }
+  
+  // Create the pet
   const pet = await Pet.create(req.body);
+  
+  // Populate the created pet to return complete data
+  const populatedPet = await Pet.findById(pet._id)
+    .populate('owner', 'firstName lastName email');
+  
+  console.log('Pet created successfully:', populatedPet);
+  
   res.status(201).json({
     success: true,
-    data: pet
+    data: populatedPet
   });
 });
 
@@ -375,6 +446,8 @@ exports.deletePet = asyncHandler(async (req, res, next) => {
 });
 
 exports.uploadPetImage = asyncHandler(async (req, res, next) => {
+  ensureUploadsDir(); // Ensure upload directory exists
+  
   const pet = await Pet.findById(req.params.id);
   if (!pet) {
     return next(new ErrorResponse(`Pet not found with id of ${req.params.id}`, 404));
@@ -385,13 +458,17 @@ exports.uploadPetImage = asyncHandler(async (req, res, next) => {
   if (!req.files || !req.files.images) {
     return next(new ErrorResponse('Please upload an image', 400));
   }
+  
   const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
-  pet.images.push(...images.map(file => ({
+  const newImages = images.map(file => ({
     url: `/uploads/${file.filename}`,
     caption: req.body.caption || '',
     uploadedAt: new Date()
-  })));
+  }));
+  
+  pet.images.push(...newImages);
   await pet.save();
+  
   res.status(200).json({
     success: true,
     data: pet
