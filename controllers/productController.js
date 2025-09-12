@@ -20,7 +20,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 
   // Filter by brand
   if (req.query.brand) {
-    query = query.where('brand').equals(req.query.brand);
+    query = query.where('brand').equals(req.query.brand); 
   }
 
   // Filter by price range
@@ -73,9 +73,7 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Search products
-// @route   GET /api/v1/products/search
-// @access  Public
+
 exports.searchProducts = asyncHandler(async (req, res, next) => {
   const { q, category, minPrice, maxPrice } = req.query;
 
@@ -114,9 +112,7 @@ exports.searchProducts = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Get products by category
-// @route   GET /api/v1/products/category/:category
-// @access  Public
+
 exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
   const products = await Product.find({
     category: req.params.category,
@@ -130,9 +126,7 @@ exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Create product (Admin only)
-// @route   POST /api/v1/products
-// @access  Private/Admin
+
 exports.createProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.create(req.body);
 

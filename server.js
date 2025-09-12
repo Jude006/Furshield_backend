@@ -1,10 +1,34 @@
 const express = require('express');
-require('dotenv').config()
+const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDb = require('./config/db');
-const errorHandler = require('./middleware/error');
+const path = require('path');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only images are allowed'), false);
+    }
+  },
+});
+
+dotenv.config();
 connectDb();
+
 const auth = require('./routes/authRoutes');
 const pets = require('./routes/petsRoutes');
 const appointments = require('./routes/appointmentRoutes');
@@ -12,32 +36,40 @@ const insurance = require('./routes/insuranceRoutes');
 const documents = require('./routes/documents');
 const products = require('./routes/productRoutes');
 const cart = require('./routes/cartRoutes');
+const userRoutes = require('./routes/userRoutes')
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://furshield.vercel.app',
-  credentials: true
+  origin: process.env.FRONTEND_URL || 'https://furshield.vercel.app/',
+  credentials: true,
 }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', auth);
+app.use('/api/users', userRoutes);
 app.use('/api/pets', pets);
 app.use('/api/appointments', appointments);
 app.use('/api/insurance', insurance);
 app.use('/api/documents', documents);
 app.use('/api/products', products);
 app.use('/api/cart', cart);
-app.use(errorHandler);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    error: err.message || 'Server Error',
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-  )
-);
-process.on('unhandledRejection', (err, promise) => {
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+process.on('unhandledRejection', (err) => {
   console.log(`Error: ${err.message}`);
   server.close(() => process.exit(1));
 });

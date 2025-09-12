@@ -5,38 +5,38 @@ const PetSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a pet name'],
     trim: true,
-    maxlength: [50, 'Name cannot be more than 50 characters']
+    maxlength: [50, 'Name cannot be more than 50 characters'],
   },
   species: {
     type: String,
     required: [true, 'Please specify species'],
-    enum: ['dog', 'cat', 'bird', 'rabbit', 'hamster', 'fish', 'reptile', 'other']
+    enum: ['dog', 'cat', 'bird', 'rabbit', 'hamster', 'fish', 'reptile', 'other'],
   },
   breed: {
     type: String,
     required: [true, 'Please specify breed'],
-    trim: true
+    trim: true,
   },
   age: {
     type: Number,
     required: [true, 'Please add age'],
-    min: [0, 'Age cannot be negative']
+    min: [0, 'Age cannot be negative'],
   },
   gender: {
     type: String,
     required: [true, 'Please specify gender'],
-    enum: ['male', 'female']
+    enum: ['male', 'female'],
   },
   color: {
     type: String,
-    trim: true
+    trim: true,
   },
   weight: {
     type: Number,
-    min: [0, 'Weight cannot be negative']
+    min: [0, 'Weight cannot be negative'],
   },
   birthDate: {
-    type: Date
+    type: Date,
   },
   medicalHistory: [{
     condition: String,
@@ -44,12 +44,12 @@ const PetSchema = new mongoose.Schema({
     treatment: String,
     date: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
     vet: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    }
+      ref: 'User',
+    },
   }],
   vaccinations: [{
     vaccine: String,
@@ -57,16 +57,16 @@ const PetSchema = new mongoose.Schema({
     nextDue: Date,
     administeredBy: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    }
+      ref: 'User',
+    },
   }],
   allergies: [{
     allergen: String,
     reaction: String,
     severity: {
       type: String,
-      enum: ['mild', 'moderate', 'severe']
-    }
+      enum: ['mild', 'moderate', 'severe'],
+    },
   }],
   medications: [{
     name: String,
@@ -76,35 +76,34 @@ const PetSchema = new mongoose.Schema({
     endDate: Date,
     prescribedBy: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    }
+      ref: 'User',
+    },
   }],
   insurance: {
     provider: String,
     policyNumber: String,
     expiryDate: Date,
-    coverage: String
+    coverage: String,
   },
   images: [{
     url: String,
     caption: String,
     uploadedAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   }],
   owner: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-// Create index for better query performance
 PetSchema.index({ owner: 1, name: 1 });
 
 module.exports = mongoose.model('Pet', PetSchema);

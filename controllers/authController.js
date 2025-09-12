@@ -86,28 +86,32 @@ exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new ErrorResponse('Please provide an email and password', 400));
+    return next(new ErrorResponse('Please provide email and password', 400));
   }
 
   const user = await User.findOne({ email }).select('+password');
-
   if (!user) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
 
   const isMatch = await user.matchPassword(password);
-
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
 
-  if (!user.isActive) {
-    return next(new ErrorResponse('Account has been deactivated', 401));
-  }
-
-  sendTokenResponse(user, 200, res);
+  const token = user.getSignedJwtToken();
+  res.status(200).json({
+    success: true,
+    token,
+    user: {
+      _id: user._id.toString(),
+      userType: user.userType,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    }
+  });
 });
-
 
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);

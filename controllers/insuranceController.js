@@ -149,9 +149,6 @@ exports.addInsuranceClaim = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Upload insurance document
-// @route   POST /api/v1/insurance/:id/documents
-// @access  Private
 exports.uploadInsuranceDocument = asyncHandler(async (req, res, next) => {
   const policy = await Insurance.findById(req.params.id);
 
