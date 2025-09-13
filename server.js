@@ -47,7 +47,7 @@
   app.use(express.json({ limit: '10mb' }));
   app.use(cookieParser());
   app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3002',
+    origin: process.env.FRONTEND_URL || 'https://furshield.vercel.app',
     credentials: true,
   }));
   app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
