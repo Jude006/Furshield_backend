@@ -47,7 +47,7 @@
   app.use(express.json({ limit: '10mb' }));
   app.use(cookieParser());
   app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://furshield.vercel.app',
+    origin: process.env.FRONTEND_URL || 'furshield-backend.onrender.com',
     credentials: true,
   }));
   app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
@@ -56,7 +56,7 @@
   app.use('/api/appointments', appointments);
   app.use('/api/insurance', insurance);
   app.use('/api/documents', documents);
-  app.use('/api/products', products);
+  app.use('/api/products', products); 
   app.use('/api/orders', orders);
   app.use('/api/health', health);
   app.use('/api/health-records', require('./routes/HealthRecordsRoutes')); 
