@@ -1,34 +1,191 @@
 [
   {
-    "name": "Premium Dog Food",
+    "name": "Premium Dog Kibble",
     "category": "food",
-    "price": 5000,
-    "description": "Nutritious dry food for adult dogs",
-    "stockQuantity": 100,
-    "image": "https://via.placeholder.com/150?text=Dog+Food"
+    "price": 5500,
+    "description": "High-quality dry food for adult dogs, rich in protein and whole grains for healthy digestion and energy.",
+    "stockQuantity": 120,
+    "images": ["https://images.pexels.com/photos/18764148/pexels-photo-18764148.jpeg"],
+    "isActive": true
   },
   {
-    "name": "Cat Grooming Brush",
+    "name": "Grain-Free Puppy Chow",
+    "category": "food",
+    "price": 6000,
+    "description": "Grain-free food formulated for puppies—gentle on tummies and full of essential nutrients for growth.",
+    "stockQuantity": 80,
+    "images": ["https://images.pexels.com/photos/12928244/pexels-photo-12928244.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Salmon Wet Cat Food",
+    "category": "food",
+    "price": 2500,
+    "description": "Salmon-flavored wet food for cats—rich in omega-3 for healthy skin and coat.",
+    "stockQuantity": 150,
+    "images": ["https://images.pexels.com/photos/45170/salmon-dish-food-dinner-45170.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Senior Dog Formula",
+    "category": "food",
+    "price": 5200,
+    "description": "Nutritious formula crafted for senior dogs to support joints and maintain vitality.",
+    "stockQuantity": 90,
+    "images": ["https://images.pexels.com/photos/13936047/pexels-photo-13936047.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Kitten Growth Food",
+    "category": "food",
+    "price": 4800,
+    "description": "Balanced high-protein dry food to support strong bones and healthy development in kittens.",
+    "stockQuantity": 100,
+    "images": ["https://images.pexels.com/photos/127028/pexels-photo-127028.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Low-Calorie Cat Meal",
+    "category": "food",
+    "price": 5100,
+    "description": "Portion-controlled, low-calorie meal for cats to help maintain healthy weight.",
+    "stockQuantity": 70,
+    "images": ["https://images.pexels.com/photos/20787/pexels-photo.jpg"],
+    "isActive": true
+  },
+  {
+    "name": "Slicker Pet Brush",
+    "category": "grooming",
+    "price": 1800,
+    "description": "Soft-bristle slicker brush designed to remove loose hair and reduce tangles gently.",
+    "stockQuantity": 60,
+    "images": ["https://images.pexels.com/photos/19145878/pexels-photo-19145878.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Soothing Oatmeal Shampoo",
+    "category": "grooming",
+    "price": 2200,
+    "description": "Oatmeal-infused shampoo for pets with sensitive skin—soothing, moisturizing, gentle lather.",
+    "stockQuantity": 80,
+    "images": ["https://images.pexels.com/photos/774731/pexels-photo-774731.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Pet Nail Clippers",
+    "category": "grooming",
+    "price": 1500,
+    "description": "Stainless steel clippers with safety guard for precise, easy pet nail trimming.",
+    "stockQuantity": 100,
+    "images": ["https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Deshedding Brush",
+    "category": "grooming",
+    "price": 2500,
+    "description": "Tool to reduce shedding for long-haired pets, helps keep coat neat and clean.",
+    "stockQuantity": 50,
+    "images": ["https://images.pexels.com/photos/4587987/pexels-photo-4587987.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Grooming Gloves",
     "category": "grooming",
     "price": 2000,
-    "description": "Gentle brush for cat fur",
-    "stockQuantity": 50,
-    "image": "https://via.placeholder.com/150?text=Grooming+Brush"
+    "description": "Gloves for gentle grooming, removing loose fur while pet enjoys the massage.",
+    "stockQuantity": 70,
+    "images": ["https://images.pexels.com/photos/258682/pexels-photo-258682.jpeg"],
+    "isActive": true
   },
   {
-    "name": "Chew Toy",
+    "name": "Flea Removal Comb",
+    "category": "grooming",
+    "price": 1200,
+    "description": "Fine-tooth comb to catch and remove fleas and debris from pet’s coat.",
+    "stockQuantity": 90,
+    "images": ["https://images.pexels.com/photos/164147/pexels-photo-164147.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Durable Squeaky Ball",
     "category": "toys",
-    "price": 1500,
-    "description": "Durable toy for dogs",
-    "stockQuantity": 75,
-    "image": "https://via.placeholder.com/150?text=Chew+Toy"
+    "price": 1000,
+    "description": "Loud squeaky ball made from tough rubber—perfect for energetic dogs to play fetch.",
+    "stockQuantity": 200,
+    "images": ["https://images.pexels.com/photos/8047012/pexels-photo-8047012.jpeg"],
+    "isActive": true
   },
   {
-    "name": "Flea Treatment",
+    "name": "Catnip Stuffed Mouse Toy",
+    "category": "toys",
+    "price": 800,
+    "description": "Soft mouse toy infused with catnip—ideal for indoor play and stimulation.",
+    "stockQuantity": 150,
+    "images": ["https://images.pexels.com/photos/3766007/pexels-photo-3766007.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Rope Tug Toy",
+    "category": "toys",
+    "price": 1200,
+    "description": "Heavy-duty rope toy for tug-of-war; great for both dogs and interactive play.",
+    "stockQuantity": 100,
+    "images": ["https://images.pexels.com/photos/5753134/pexels-photo-5753134.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Interactive Laser Pointer",
+    "category": "toys",
+    "price": 900,
+    "description": "Laser pointer toy to engage cats in active chase and exercise indoors.",
+    "stockQuantity": 120,
+    "images": ["https://images.pexels.com/photos/451984/pexels-photo-451984.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Chew Bone Toy",
+    "category": "toys",
+    "price": 1100,
+    "description": "Durable chew bone that promotes dental health and satisfies chewing instinct.",
+    "stockQuantity": 80,
+    "images": ["https://images.pexels.com/photos/5941735/pexels-photo-5941735.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Feather Teaser Wand",
+    "category": "toys",
+    "price": 700,
+    "description": "Light-weight wand with feathers—fun and engaging toy for cats to jump and chase.",
+    "stockQuantity": 140,
+    "images": ["https://images.pexels.com/photos/6251045/pexels-photo-6251045.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Flea & Tick Protective Collar",
     "category": "health",
-    "price": 3000,
-    "description": "Effective flea and tick treatment",
-    "stockQuantity": 40,
-    "image": "https://via.placeholder.com/150?text=Flea+Treatment"
+    "price": 3500,
+    "description": "Collar designed to repel fleas and ticks—long-lasting protection for pets outdoors.",
+    "stockQuantity": 60,
+    "images": ["https://images.pexels.com/photos/60218/pexels-photo-60218.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Joint Wellness Supplement",
+    "category": "health",
+    "price": 4000,
+    "description": "Nutritional supplement to support joint flexibility and mobility in aging pets.",
+    "stockQuantity": 50,
+    "images": ["https://images.pexels.com/photos/5410009/pexels-photo-5410009.jpeg"],
+    "isActive": true
+  },
+  {
+    "name": "Dental Chew Treats",
+    "category": "health",
+    "price": 2000,
+    "description": "Tasty dental treats that help reduce plaque and freshen breath.",
+    "stockQuantity": 100,
+    "images": ["https://images.pexels.com/photos/4083356/pexels-photo-4083356.jpeg"],
+    "isActive": true
   }
 ]

@@ -36,7 +36,7 @@
     },
     userType: {
       type: String,
-      enum: ['petOwner', 'veterinarian', 'shelter'],
+      enum: ['petOwner', 'veterinarian', 'shelter', 'admin'],
       required: true
     },
     specialization: {

@@ -1,44 +1,28 @@
+const asyncHandler = require('express-async-handler');
 const Notification = require('../models/Notification');
-const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
 
-exports.getNotifications = asyncHandler(async (req, res, next) => {
-  const notifications = await Notification.find({ user: req.user.id })
-    .sort({ createdAt: -1 })
-    .limit(50);
-  res.status(200).json({
-    success: true,
-    count: notifications.length,
-    data: notifications
-  });
+exports.getNotifications = asyncHandler(async (req, res) => {
+  const notifications = await Notification.find({ userId: req.user._id })
+    .populate('relatedId')
+    .sort({ createdAt: -1 });
+  res.status(200).json({ success: true, data: notifications });
 });
 
-exports.markNotificationAsRead = asyncHandler(async (req, res, next) => {
+exports.markNotificationAsRead = asyncHandler(async (req, res) => {
   const notification = await Notification.findById(req.params.id);
-  if (!notification) {
-    return next(new ErrorResponse('Notification not found', 404));
+  if (!notification || notification.userId.toString() !== req.user._id.toString()) {
+    res.status(404);
+    throw new Error('Notification not found or unauthorized');
   }
-  if (notification.user.toString() !== req.user.id) {
-    return next(new ErrorResponse('Not authorized to access this notification', 403));
-  }
-  notification.read = true;
+  notification.isRead = true;
   await notification.save();
-  res.status(200).json({
-    success: true,
-    data: notification
-  });
+  res.status(200).json({ success: true, data: notification });
 });
 
-exports.markAllNotificationsAsRead = asyncHandler(async (req, res, next) => {
+exports.markAllNotificationsAsRead = asyncHandler(async (req, res) => {
   await Notification.updateMany(
-    { user: req.user.id, read: false },
-    { read: true }
+    { userId: req.user._id, isRead: false },
+    { isRead: true }
   );
-  const notifications = await Notification.find({ user: req.user.id })
-    .sort({ createdAt: -1 })
-    .limit(50);
-  res.status(200).json({
-    success: true,
-    data: notifications
-  });
+  res.status(200).json({ success: true, message: 'All notifications marked as read' });
 });

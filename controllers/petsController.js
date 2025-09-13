@@ -306,10 +306,42 @@ const ensureUploadsDir = () => {
   }
 };
 
+// exports.getPets = asyncHandler(async (req, res, next) => {
+//   const pets = await Pet.find({ owner: req.user.id })
+//     .populate('owner', 'firstName lastName email')
+//     .sort({ createdAt: -1 });
+  
+//   console.log('Returning pets with images:', pets.map(pet => ({
+//     name: pet.name,
+//     imageCount: pet.images ? pet.images.length : 0,
+//     images: pet.images
+//   })));
+  
+//   res.status(200).json({
+//     success: true,
+//     count: pets.length,
+//     data: pets
+//   });
+// });
+
 exports.getPets = asyncHandler(async (req, res, next) => {
-  const pets = await Pet.find({ owner: req.user.id })
-    .populate('owner', 'firstName lastName email')
-    .sort({ createdAt: -1 });
+  let pets;
+  if (req.user.userType === 'veterinarian') {
+    // Fetch pets linked to vet's appointments
+    const Appointment = require('../models/Appointment');
+    const appointments = await Appointment.find({ 
+      veterinarian: req.user.id,
+      status: { $in: ['scheduled', 'confirmed', 'completed'] }
+    }).distinct('pet');
+    pets = await Pet.find({ _id: { $in: appointments } })
+      .populate('owner', 'firstName lastName email')
+      .sort({ createdAt: -1 });
+  } else {
+    // Owners fetch their own pets
+    pets = await Pet.find({ owner: req.user.id })
+      .populate('owner', 'firstName lastName email')
+      .sort({ createdAt: -1 });
+  }
   
   console.log('Returning pets with images:', pets.map(pet => ({
     name: pet.name,

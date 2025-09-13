@@ -1,31 +1,36 @@
 const mongoose = require('mongoose');
 
 const AvailabilitySchema = new mongoose.Schema({
-  vet: {
-    type: mongoose.Schema.Types.ObjectId,
+  veterinarian: {
+    type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: true
   },
-  day: {
-    type: String,
-    enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    required: true
+  date: {
+    type: Date,
+    required: [true, 'Please add availability date']
   },
-  startTime: {
-    type: String,
-    required: true
-  },
-  endTime: {
-    type: String,
-    required: true
-  },
-  slots: {
-    type: Number,
-    required: true,
-    min: 0
+  timeSlots: [{
+    startTime: {
+      type: String,
+      required: true
+    },
+    endTime: {
+      type: String,
+      required: true
+    },
+    status: {
+      type: String,
+      enum: ['available', 'booked'],
+      default: 'available'
+    }
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-}, {
-  timestamps: true
 });
+
+AvailabilitySchema.index({ veterinarian: 1, date: 1 });
 
 module.exports = mongoose.model('Availability', AvailabilitySchema);

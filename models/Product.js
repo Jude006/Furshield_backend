@@ -1,38 +1,14 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please add a product name'],
-    trim: true
-  },
-  category: {
-    type: String,
-    required: [true, 'Please add a category'],
-    enum: ['food', 'grooming', 'toys', 'health', 'accessories']
-  },
-  price: {
-    type: Number,
-    required: [true, 'Please add a price'],
-    min: 0
-  },
-  description: {
-    type: String,
-    trim: true
-  },
-  stockQuantity: {
-    type: Number,
-    required: [true, 'Please add stock quantity'],
-    min: 0
-  },
-  image: {
-    type: String,
-    default: 'https://via.placeholder.com/300'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  name: { type: String, required: true, trim: true, maxlength: 100 },
+  category: { type: String, required: true, enum: ['food', 'grooming', 'toys', 'health', 'accessories'] },
+  price: { type: Number, required: true, min: 0 },
+  description: { type: String, trim: true, maxlength: 500 },
+  stockQuantity: { type: Number, required: true, min: 0 },
+  images: [{ type: String, default: 'https://via.placeholder.com/300' }],
+  isActive: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Product', ProductSchema);
