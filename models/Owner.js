@@ -10,7 +10,6 @@ const ownerSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-// Hash password before saving
 ownerSchema.pre('save', async function (next) {
   if (this.isModified('password_hash')) {
     this.password_hash = await bcrypt.hash(this.password_hash, 10);
@@ -18,7 +17,6 @@ ownerSchema.pre('save', async function (next) {
   next();
 });
 
-// Method to compare passwords
 ownerSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password_hash);
 };

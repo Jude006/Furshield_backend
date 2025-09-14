@@ -4,12 +4,7 @@ const asyncHandler = require('../middleware/async');
  const Pet = require('../models/Pets');
 
 
-
-// @desc    Get all insurance policies for user's pets
-// @route   GET /api/v1/insurance
-// @access  Private
 exports.getInsurancePolicies = asyncHandler(async (req, res, next) => {
-  // Get all pets owned by user
   const userPets = await Pet.find({ owner: req.user.id }).select('_id');
   const petIds = userPets.map(pet => pet._id);
 
@@ -23,9 +18,7 @@ exports.getInsurancePolicies = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Get single insurance policy
-// @route   GET /api/v1/insurance/:id
-// @access  Private
+
 exports.getInsurancePolicy = asyncHandler(async (req, res, next) => {
   const policy = await Insurance.findById(req.params.id)
     .populate('pet', 'name species breed');
@@ -34,7 +27,6 @@ exports.getInsurancePolicy = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Insurance policy not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const pet = await Pet.findById(policy.pet._id);
   
   if (pet.owner.toString() !== req.user.id) {
@@ -47,11 +39,8 @@ exports.getInsurancePolicy = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Create insurance policy
-// @route   POST /api/v1/insurance
-// @access  Private
+
 exports.createInsurancePolicy = asyncHandler(async (req, res, next) => {
-  // Verify user owns the pet
   const pet = await Pet.findById(req.body.pet);
   
   if (!pet) {
@@ -70,9 +59,7 @@ exports.createInsurancePolicy = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Update insurance policy
-// @route   PUT /api/v1/insurance/:id
-// @access  Private
+
 exports.updateInsurancePolicy = asyncHandler(async (req, res, next) => {
   let policy = await Insurance.findById(req.params.id);
 
@@ -80,7 +67,6 @@ exports.updateInsurancePolicy = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Insurance policy not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const pet = await Pet.findById(policy.pet);
   
   if (pet.owner.toString() !== req.user.id) {
@@ -98,9 +84,7 @@ exports.updateInsurancePolicy = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Delete insurance policy
-// @route   DELETE /api/v1/insurance/:id
-// @access  Private
+
 exports.deleteInsurancePolicy = asyncHandler(async (req, res, next) => {
   const policy = await Insurance.findById(req.params.id);
 
@@ -108,7 +92,6 @@ exports.deleteInsurancePolicy = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Insurance policy not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const pet = await Pet.findById(policy.pet);
   
   if (pet.owner.toString() !== req.user.id) {
@@ -123,9 +106,7 @@ exports.deleteInsurancePolicy = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Add insurance claim
-// @route   POST /api/v1/insurance/:id/claims
-// @access  Private
+
 exports.addInsuranceClaim = asyncHandler(async (req, res, next) => {
   const policy = await Insurance.findById(req.params.id);
 
@@ -133,7 +114,6 @@ exports.addInsuranceClaim = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Insurance policy not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const pet = await Pet.findById(policy.pet);
   
   if (pet.owner.toString() !== req.user.id) {
@@ -156,7 +136,6 @@ exports.uploadInsuranceDocument = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Insurance policy not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const pet = await Pet.findById(policy.pet);
   
   if (pet.owner.toString() !== req.user.id) {

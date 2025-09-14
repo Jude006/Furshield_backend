@@ -2,11 +2,8 @@ const Document = require('../models/Document');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
-// @desc    Get all documents for user's pets
-// @route   GET /api/v1/documents
-// @access  Private
+
 exports.getDocuments = asyncHandler(async (req, res, next) => {
-  // Get all pets owned by user
   const Pet = require('../models/Pet');
   const userPets = await Pet.find({ owner: req.user.id }).select('_id');
   const petIds = userPets.map(pet => pet._id);
@@ -23,9 +20,7 @@ exports.getDocuments = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Get single document
-// @route   GET /api/v1/documents/:id
-// @access  Private
+
 exports.getDocument = asyncHandler(async (req, res, next) => {
   const document = await Document.findById(req.params.id)
     .populate('pet', 'name species breed')
@@ -35,7 +30,6 @@ exports.getDocument = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Document not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const Pet = require('../models/Pet');
   const pet = await Pet.findById(document.pet._id);
   
@@ -49,11 +43,8 @@ exports.getDocument = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Upload document
-// @route   POST /api/v1/documents
-// @access  Private
+
 exports.uploadDocument = asyncHandler(async (req, res, next) => {
-  // Verify user owns the pet
   const Pet = require('../models/Pet');
   const pet = await Pet.findById(req.body.pet);
   
@@ -65,7 +56,6 @@ exports.uploadDocument = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Not authorized to upload documents for this pet`, 401));
   }
 
-  // Add uploadedBy to req.body
   req.body.uploadedBy = req.user.id;
 
   const document = await Document.create(req.body);
@@ -79,9 +69,7 @@ exports.uploadDocument = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Update document
-// @route   PUT /api/v1/documents/:id
-// @access  Private
+
 exports.updateDocument = asyncHandler(async (req, res, next) => {
   let document = await Document.findById(req.params.id);
 
@@ -89,7 +77,6 @@ exports.updateDocument = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Document not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const Pet = require('../models/Pet');
   const pet = await Pet.findById(document.pet);
   
@@ -110,9 +97,7 @@ exports.updateDocument = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Delete document
-// @route   DELETE /api/v1/documents/:id
-// @access  Private
+
 exports.deleteDocument = asyncHandler(async (req, res, next) => {
   const document = await Document.findById(req.params.id);
 
@@ -120,7 +105,6 @@ exports.deleteDocument = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Document not found with id of ${req.params.id}`, 404));
   }
 
-  // Verify user owns the pet
   const Pet = require('../models/Pet');
   const pet = await Pet.findById(document.pet);
   
